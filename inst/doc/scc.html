@@ -340,8 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(epicmodel)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(epicmodel)</span></code></pre></div>
 <p>Sufficient-component cause (SCC) models are the core of the
 <code>epicmodel</code> package. Creating this package came with
 interesting discoveries and (re-)interpretations of some underlying
@@ -424,12 +423,13 @@ outcome-focused and in theory need to include all causes of an outcome.
 Their creation is therefore time-consuming, but once created, they
 should be easily re-usable. <code>epicmodel</code> is built on the
 assumption that we know enough about many health outcomes to create
-useful SCC models. An useful SCC model might be able to fulfill the
+useful SCC models. A useful SCC model might be able to fulfill the
 following tasks:</p>
 <ul>
 <li>Increase understanding of the modeled health outcome by grouping
 component causes to sufficient causes</li>
-<li>Generate hypotheses about the effect of interventions</li>
+<li>Generate hypotheses about the effect of prevention and
+interventions</li>
 <li>Form the backbone of complex epidemiological causal models by
 translating the SCC model to a DAG</li>
 </ul>
@@ -740,6 +740,14 @@ all available ones in the console.)</p>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;always&quot;</span></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>scc_model <span class="sc">%&gt;%</span> <span class="fu">are_sufficient</span>(<span class="fu">c</span>(<span class="st">&quot;THENa5d1&quot;</span>,<span class="st">&quot;THENa4d1&quot;</span>,<span class="st">&quot;THENa6d1&quot;</span>,<span class="st">&quot;THENa7d3e4&quot;</span>), <span class="at">type =</span> <span class="st">&quot;binary&quot;</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+</div>
+<div id="extract-necessary-causes" class="section level2">
+<h2>Extract necessary causes</h2>
+<p>Necessary causes, i.e., component causes that are part of every
+sufficient cause, can be extracted with function
+<code>necessary_causes()</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>scc_model <span class="sc">%&gt;%</span> <span class="fu">necessary_causes</span>()</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;THENa4d1&quot; &quot;THENa6d1&quot;</span></span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1">

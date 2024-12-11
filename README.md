@@ -6,7 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/forsterepi/epicmodel/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/forsterepi/epicmodel/actions/workflows/R-CMD-check.yaml)
-
+[![CRAN
+status](https://www.r-pkg.org/badges/version/epicmodel)](https://CRAN.R-project.org/package=epicmodel)
 <!-- badges: end -->
 
 ## Overview
@@ -15,7 +16,7 @@
 to offer all necessary tools for a causal modeling workflow in R for
 epidemiologists. Causal modeling describes a structured process of
 making causal assumptions based on which an epidemiological study is
-conduted and its results are interpreted. We are always making causal
+conducted and its results are interpreted. We are always making causal
 assumptions, at least implicitly. Causal modeling is about doing so
 explicitly. Did you ever wonder what to measure, how to define your
 variables, or how to model your outcome of interest? If yes, chances are
@@ -28,9 +29,9 @@ sufficient-component cause (SCC) models, and offers a way to create them
 using R. SCC models describe, which sets of causes are in combination
 sufficient for the outcome of interest to occur.
 
-The package documentation contains many terms with very specific
-meanings in the the context of this package. Check the **glossary** for
-an overview: `vignette("glossary")`.
+The package documentation contains many terms with a specific meaning in
+the context of this package. Check the **glossary** for an overview:
+`vignette("glossary")`.
 
 ## Usage
 
@@ -44,7 +45,7 @@ Creating SCC models follows a three-step workflow (see
 3.  Use the SCC model, e.g., for:
 
 - Estimating **standardized effect size**
-- Investigating the effect of **interventions**
+- Investigating the effect of **prevention** and **intervention**
 - Inspecting the **mechanisms** behind sufficient causes
 - Transforming the SCC model to a directed acyclic graph (**DAG**)
 

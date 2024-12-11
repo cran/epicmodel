@@ -1,4 +1,4 @@
-#' Uncheckeing `epicmodel_steplist` objects
+#' Unchecking `epicmodel_steplist` objects
 #'
 #' Putting a checked `epicmodel_steplist` back to an unchecked status.
 #'
@@ -6,7 +6,10 @@
 #'
 #' @returns An object of class `epicmodel_steplist`.
 #'
-#' @noRd
+#' @export
+#'
+#' @examples
+#' x <- uncheck_steplist(scc_rain$steplist)
 uncheck_steplist <- function(steplist) {
   # Check input
   if (inherits(steplist, c("epicmodel_steplist_checked", "epicmodel_steplist")) %>% magrittr::not()) {

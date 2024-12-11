@@ -158,13 +158,15 @@ get_cause_combinations <- function(causes, steplist) {
   # Exclude the combination with all component causes as FALSE (i.e., no component cause is present)
   out %<>% dplyr::filter(rowSums(.) > 0)
 
-  # Exclude implausible component cause combinations
+  # Exclude incompatible component causes
   if (nrow(steplist$icc) > 0) {
     out$icc <- NA
     for (i in 1:nrow(steplist$icc)) {
       for (j in 1:nrow(out)) {
-        if (out[j,steplist$icc[i,"id1"]] & out[j,steplist$icc[i,"id2"]]) {
-          out$icc[j] <- TRUE
+        if ((steplist$icc[i,"id1"] %in% colnames(out)) & (steplist$icc[i,"id2"] %in% colnames(out))) {
+          if (out[j,steplist$icc[i,"id1"]] & out[j,steplist$icc[i,"id2"]]) {
+            out$icc[j] <- TRUE
+          }
         }
       }
     }
@@ -403,7 +405,7 @@ is_fulfilled <- function(if_list, current_list_then) {
 #' Used in `is_sufficient()`.
 #'
 #' @param outc_list See `is_sufficient()`.
-#' @param final_list_then A character vector contaning the THEN statments of the final list of steps that can be caused by a certain set of
+#' @param final_list_then A character vector contaning the THEN statements of the final list of steps that can be caused by a certain set of
 #' component causes, created by `is_sufficient()`.
 #'
 #' @returns TRUE or FALSE.

@@ -73,6 +73,9 @@ test_that("get_causes works", {
   expect_no_error(get_causes(scc_mini_intv_to_depends, "all", split_mini_intv_to_depends))
   expect_no_error(get_causes(scc_mini_intv_to_depends, "IFNOTa7THENa3", split_mini_intv_to_depends))
   expect_no_error(get_causes(scc_mini_intv_to_depends, c("THENa2","IFNOTa7THENa3","IFNOTa6THENa1"), split_mini_intv_to_depends))
+
+  scc_party <- readRDS(test_path("fixtures", "scc_party.rds"))
+  expect_error(intervene(scc_party, causes = c("THENa7d3e4","THENa7d3e5","THENa7d3e6","THENa5d1","THENa4d1","THENa6d1"), intervention = "all"), class = "icc_causes")
 })
 
 test_that("get_prevented_* works", {
@@ -179,6 +182,11 @@ test_that("intervene works as expected", {
   scc_rain_test <- create_scc(steplist_rain_test)
 
   expect_no_error(scc_rain_test %>% intervene(causes = "all", intervention = "all"))
+  expect_no_error(scc_rain_test %>% intervene(causes = "all"))
+  expect_no_error(scc_rain_test %>% intervene(intervention = "all"))
+  expect_no_error(scc_rain_test %>% intervene(causes = "THENa5", intervention = "all"))
+  expect_no_error(scc_rain_test %>% intervene(causes = c("THENa5","THENa1"), intervention = "all"))
+  expect_no_error(scc_rain_test %>% intervene(causes = "THENa5", intervention = "THENd4e1"))
   expect_no_error(scc_rain_test %>% intervene(causes = "all", intervention = c("THENd4e1","THENd6a7")))
 
   steplist_mini_intv <- readRDS(test_path("fixtures", "steplist_mini_intv.rds")) %>% check_steplist()
@@ -200,4 +208,9 @@ test_that("intervene works as expected", {
   order_mini_intv <- data.frame(order = c("a1->a2","a2->a1"), suff = c(T,F))
   expect_equal(intervene(scc_mini_intv_to_depends, causes = c("THENa2","IFNOTa7THENa3","IFNOTa6THENa1"), intervention = "THENa7",
                          output = "table")[["order"]][["intv1"]][["cc7"]], order_mini_intv)
+
+  scc_party <- readRDS(test_path("fixtures", "scc_party.rds"))
+  expect_no_error(scc_party %>% intervene(causes = "all"))
+  expect_no_error(scc_party %>% intervene(causes = "all", intervention = "all"))
+  expect_no_error(scc_party %>% intervene(causes = "THENa5d1", intervention = "all"))
 })
