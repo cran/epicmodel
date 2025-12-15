@@ -68,8 +68,7 @@ prevent <- function(scc, causes = NULL, output = c("nice", "table")) {
     # Get rowname of row with all values equal to FALSE
     all_prev_rowname <- rownames(cause_set)[cause_set %>% rowSums() %>% magrittr::equals(0)]
     if (all_prev_rowname %>% length() %>% magrittr::equals(1) %>% magrittr::not()) {
-      cli::cli_abort(cli::cli_abort(c("Internal error `prevent1`",
-                                      "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+      cli::cli_abort(cli::cli_abort("Internal error `prevent1`", .internal = TRUE,
                                     class = "error_prevent1"))
     }
 
@@ -126,22 +125,19 @@ prevent <- function(scc, causes = NULL, output = c("nice", "table")) {
 get_causes_prevent <- function(scc, causes, split) {
   # Check input
   if (inherits(scc, "epicmodel_scc") %>% magrittr::not()) {
-    cli::cli_abort(c("Input validation error: {.var scc}",
-                     "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"), class = "input_scc")
+    cli::cli_abort("Input validation error: {.var scc}", .internal = TRUE, class = "input_scc")
   }
 
   rlang::try_fetch({
       checkmate::assert_character(causes, any.missing = F, null.ok = T, min.len = 1, min.chars = 1)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var causes}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var causes}", .internal = TRUE,
                                              parent = cnd, class = "input_causes")
   })
 
   rlang::try_fetch({
       checkmate::assert_list(split, any.missing = F, null.ok = F, len = 5, names = "unique")
       checkmate::assert_subset(names(split), c("non_start_steps","causes","interventions","ifnot_steps","end_steps"), empty.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var split}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var split}", .internal = TRUE,
                                              parent = cnd, class = "input_split")
   })
   #=============================================================================
@@ -159,7 +155,7 @@ get_causes_prevent <- function(scc, causes, split) {
   } else {
   # With causes specified
     ## Check if selected causes exist
-    if (causes %>% magrittr::is_in(split$causes$id_step) %>% all_true() %>% magrittr::not()) {
+    if (causes %>% magrittr::is_in(split$causes$id_step) %>% all() %>% magrittr::not()) {
       invalid_causes <- causes[causes %>% magrittr::is_in(split$causes$id_step) %>% magrittr::not()] %>%
         stringr::str_c(collapse = ", ")
       cli::cli_abort(c("All elements of {.var causes} must be IDs of valid component causes!",
@@ -182,7 +178,7 @@ get_causes_prevent <- function(scc, causes, split) {
               icc_check$check[i] <- TRUE
             }
         }
-        if (icc_check$check %>% all_false() %>% magrittr::not()) {
+        if (icc_check$check %>% any()) {
           icc_check$combi_desc <- paste(icc_check$desc1," <> ",icc_check$desc2)
           icc_causes <- icc_check %>% dplyr::filter(.data$check == TRUE) %>% magrittr::extract2("combi_desc") %>%
             stringr::str_c(collapse = ", ")
@@ -206,8 +202,7 @@ get_causes_prevent <- function(scc, causes, split) {
                                    col.names = "unique")
       checkmate::assert_character(rownames(cause_set), pattern = "^prev[[:digit:]]+$")
       checkmate::assert_subset(colnames(cause_set), choices = split$causes$id_step, empty.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                              parent = cnd, class = "output")
   })
   #=============================================================================
@@ -227,7 +222,7 @@ get_causes_prevent <- function(scc, causes, split) {
 #' corresponds to the i-th set and set 2 corresponds to the j-th set. If the j-th set fulfills both criteria, minimality for the i-th set is changed
 #' to FALSE.
 #'
-#' @param prev_set A data.frame with colnames equal to some step IDs of the component causes and rownames of format ^prev[[:digit:]]+$. Contains
+#' @param prev_set A data.frame with colnames equal to some step IDs of the component causes and rownames of format `^prev[[:digit:]]+$`. Contains
 #' only TRUE or FALSE and no missings.
 #'
 #' @returns An object similar to input `prev_set`, but with less rows. (If all sets are minimal, returns exactly input `prev_set`.)
@@ -239,8 +234,7 @@ minimize_prev <- function(prev_set) {
       checkmate::assert_data_frame(prev_set, types = "logical", any.missing = F, null.ok = F, min.cols = 1, min.rows = 1,
                                    col.names = "unique", row.names = "unique")
       checkmate::assert_character(rownames(prev_set), pattern = "^prev[[:digit:]]+$")
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var prev_set}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var prev_set}", .internal = TRUE,
                                              parent = cnd, class = "input_prev_set")
   })
   #=============================================================================
@@ -259,7 +253,7 @@ minimize_prev <- function(prev_set) {
     for (j in 1:n_rows) {
       ### Check if the component causes that are missing in the i-th set, are also missing in the j-th set
       if (length(left_out_start) > 0) {
-        also_false <- prev_set[j,left_out_start] %>% as.logical() %>% all_false()
+        also_false <- prev_set[j,left_out_start] %>% as.logical() %>% any() %>% magrittr::not()
       } else {
         also_false <- T
       }
@@ -282,8 +276,7 @@ minimize_prev <- function(prev_set) {
       checkmate::assert_data_frame(prev_set, types = "logical", any.missing = F, null.ok = F, min.cols = 1, min.rows = 1,
                                    col.names = "unique", row.names = "unique")
       checkmate::assert_character(rownames(prev_set), pattern = "^prev[[:digit:]]+$")
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error: {.var prev_set}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error: {.var prev_set}", .internal = TRUE,
                                              parent = cnd, class = "output_prev_set")
   })
   #=============================================================================

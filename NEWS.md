@@ -1,3 +1,15 @@
+# epicmodel 0.2.1
+
+* Update email address
+
+* Update roxygen to 7.3.3
+
+* Use `.internal` of `rlang::abort()`
+
+* Use `all()` and `any()`
+
+* Replace `label.size` with `linewidth` in a call to `ggplot2::geom_label()`
+
 # epicmodel 0.2.0
 
 * `prevent()` now enables investigation of prevention sets

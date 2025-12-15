@@ -1,15 +1,15 @@
 Package: epicmodel
 Title: Causal Modeling in Epidemiology
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: 
-    person("Felix", "Forster", , "felix.forster@med.uni-muenchen.de", role = c("aut", "cre", "cph"),
+    person("Felix", "Forster", , "forsterepi@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-3670-9244"))
 Description: Create causal models for use in epidemiological studies, 
     including sufficient-component cause models as introduced by 
     Rothman (1976) <doi:10.1093/oxfordjournals.aje.a112335>.
 License: GPL (>= 3)
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports: checkmate, cli, dagitty, DiagrammeR, dplyr, DT, ggplot2,
         gtools, methods, prompter, purrr, rlang, shiny, shinyalert,
         shinyjs, shinythemes, spsUtil, stringr, tibble, tidyr
@@ -22,8 +22,9 @@ URL: https://forsterepi.github.io/epicmodel/,
         https://github.com/forsterepi/epicmodel
 BugReports: https://github.com/forsterepi/epicmodel/issues
 NeedsCompilation: no
-Packaged: 2024-12-11 18:50:38 UTC; ffors
-Author: Felix Forster [aut, cre, cph] (<https://orcid.org/0000-0002-3670-9244>)
-Maintainer: Felix Forster <felix.forster@med.uni-muenchen.de>
+Packaged: 2025-12-14 14:46:00 UTC; ffors
+Author: Felix Forster [aut, cre, cph] (ORCID:
+    <https://orcid.org/0000-0002-3670-9244>)
+Maintainer: Felix Forster <forsterepi@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-12-11 19:10:01 UTC
+Date/Publication: 2025-12-15 08:10:02 UTC
